@@ -6,6 +6,8 @@ export interface VisitorInfo {
   count: number;
   host: string;
   countryName: string;
+  subdivision1: string;
+  subdivision2: string;
   cityName: string;
 }
 
@@ -28,7 +30,8 @@ with
       from ipt group by ipt.ip, ipt.host
   ),
   ipgeo as (select ts, ip, cnt, host, geoip.query_city_geoname_id_by_ipv4(ip) as geoid from unique_ipt)
-  select /*+ NO_MERGE(ipgeo) */ ipgeo.ip, ipgeo.ts, ipgeo.cnt, ipgeo.host, iploc.country_name, iploc.city_name from ipgeo
+  select /*+ NO_MERGE(ipgeo) */ ipgeo.ip, ipgeo.ts, ipgeo.cnt, ipgeo.host,
+    iploc.country_name, iploc.subdivision_1_name, iploc.subdivision_2_name, iploc.city_name from ipgeo
     left join geoip.geoip_city_locations as iploc on iploc.geoname_id = ipgeo.geoid and iploc.locale_code = 'zh-CN'
     order by ipgeo.ts desc
     limit :limit;
@@ -41,14 +44,16 @@ with
       limit: ["i", limit],
       host: ["s", host],
     },
-    "sdisss"
+    "sdisssss"
   );
-  return rows.map(([ip, ts, count, host, countryName, cityName]) => ({
+  return rows.map(([ip, ts, count, host, countryName, subdivision1, subdivision2, cityName]) => ({
     ip: ip!,
     ts: ts!,
     count: count!,
     host: host!,
     countryName: countryName!,
+    subdivision1: subdivision1!,
+    subdivision2: subdivision2!,
     cityName: cityName!,
   }));
 }
