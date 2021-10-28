@@ -1,0 +1,36 @@
+{
+  "name": "blueanalytics",
+  "version": "0.0.0",
+  "description": "blueanalytics",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier -w ./src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/losfair/blueanalytics.git"
+  },
+  "keywords": [],
+  "author": "losfair",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/losfair/blueanalytics/issues"
+  },
+  "private": true,
+  "homepage": "https://github.com/losfair/blueanalytics#readme",
+  "devDependencies": {
+    "@types/cookie": "^0.4.1",
+    "blueboat-types": "^0.2.7",
+    "prettier": "^2.4.1",
+    "ts-loader": "^9.2.5",
+    "typescript": "^4.4.3",
+    "webpack": "^5.11.0",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "webpack-cli": "^4.3.1"
+  },
+  "dependencies": {
+    "cookie": "^0.4.1"
+  }
+}
