@@ -21,7 +21,7 @@ function mkJsonResponse(x: unknown, status: number = 200): Response {
   return new Response(JSON.stringify(x, null, 2), {
     status,
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
     },
   });
 }

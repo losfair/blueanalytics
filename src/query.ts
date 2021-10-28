@@ -82,7 +82,7 @@ export interface BlueboatLogEntry {
   logtime: Date;
 }
 
-const reqidMatcher = /^([0-9a-z:+-]+)$/;
+const reqidMatcher = /^u:([0-9a-z-]+)$/;
 
 export async function getRequestTrace(
   requestId: string
@@ -97,11 +97,13 @@ export async function getRequestTrace(
           remote_addr, proto, method, host, uri, req_headers
       from caddy_log.logs
       where analytics_blueboat_request_id = :self_id or analytics_blueboat_request_id like :prefix
+      order by ts asc
   `;
   const bbQuery = `
   select apppath, appversion, reqid, msg, logseq, logtime
       from rwv2.applog
       where reqid = :self_id or reqid like :prefix
+      order by logtime asc
   `;
 
   const caddyRes = await appDB.exec(
