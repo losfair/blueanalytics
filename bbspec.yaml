@@ -1,6 +1,8 @@
 appid: net.univalent.blueanalytics
 build: npm run build
 artifact: dist/main.js
-mysql:
-- db
 static: "./res"
+env:
+- clickhouseQueryEndpoint
+- clickhouseUser
+- clickhousePassword
