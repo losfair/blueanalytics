@@ -37,7 +37,7 @@ const reqidMatcher = /^u:([0-9a-z-]+)$/;
 export async function getRequestTrace(
   time: number,
   requestId: string
-): Promise<RequestTrace | null> {
+): Promise<RequestTrace | { error: string }> {
   if (!reqidMatcher.test(requestId))
     throw new Error("bad request id: " + requestId);
   const caddyQueryGen = (tsUnsafe: number, reqidUnsafe: string) => {
@@ -94,7 +94,9 @@ export async function getRequestTrace(
   const caddyRawRes = <any>(
     await queryClickhouse(caddyQueryGen(time, requestId))
   );
-  if (!caddyRawRes.data.length) return null;
+  if (!caddyRawRes.data.length) return {
+    error: "No data - please wait a minute if this request is just made",
+  };
   const caddyRawData = caddyRawRes.data[0];
 
   const clEntry: CaddyLogEntry = {
