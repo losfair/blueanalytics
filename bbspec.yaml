@@ -1,8 +1,8 @@
 appid: net.univalent.blueanalytics
 build: npm run build
 artifact: dist/main.js
-static: "./res"
 env:
 - clickhouseQueryEndpoint
 - clickhouseUser
 - clickhousePassword
+- blueboatTables

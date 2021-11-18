@@ -1,6 +1,7 @@
 const clickhouseQueryEndpoint = App.mustGetEnv("clickhouseQueryEndpoint");
 const clickhouseUser = App.mustGetEnv("clickhouseUser");
 const clickhousePassword = App.mustGetEnv("clickhousePassword");
+const blueboatTables = App.mustGetEnv("blueboatTables").split(",");
 
 export interface RequestTrace {
   caddy: CaddyLogEntry;
@@ -73,22 +74,20 @@ export async function getRequestTrace(
     reqidUnsafe: string,
     prefixUnsafe: string
   ): Promise<any[]> => {
-    const res: any[] = (<any>(
-      await queryClickhouse(
-        bbQueryMetaGen("logstream_data")(tsUnsafe, reqidUnsafe, prefixUnsafe)
-      )
-    )).data;
-    res.push(
-      ...(<any>(
-        await queryClickhouse(
-          bbQueryMetaGen("logstream_data_lab")(
-            tsUnsafe,
-            reqidUnsafe,
-            prefixUnsafe
+    const res: any[] = [];
+    for(const tableName of blueboatTables) {
+      res.push(
+        ...(<any>(
+          await queryClickhouse(
+            bbQueryMetaGen(tableName)(
+              tsUnsafe,
+              reqidUnsafe,
+              prefixUnsafe
+            )
           )
-        )
-      )).data
-    );
+        )).data
+      );
+    }
     return res;
   };
 
