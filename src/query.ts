@@ -32,7 +32,7 @@ export interface BlueboatLogEntry {
   logtime: Date;
 }
 
-const reqidMatcher = /^u:([0-9a-z-]+)$/;
+const reqidMatcher = /^[0-9a-z:-]+$/;
 
 export async function getRequestTrace(
   time: number,
